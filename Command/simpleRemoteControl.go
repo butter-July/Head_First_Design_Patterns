@@ -5,31 +5,32 @@ import (
 	"reflect"
 )
 
-type SimpleRemoteControl struct {
+type RemoteControl struct {
 	//slot Command
-	onCommand  [10]Command
-	offCommand [10]Command
+	onCommand   [7]Command
+	offCommand  [7]Command
+	undoCommand Command
 }
 
-func (s *SimpleRemoteControl) Command(command [10]Command) {
-	for i := 0; i <= 9; i++ {
-		s.offCommand[i] = command[i]
-		s.offCommand[i] = command[i]
-	}
-}
-func (s *SimpleRemoteControl) SetCommand(slot int, oncommand Command, offCommand Command) {
+func (s *RemoteControl) SetCommand(slot int, oncommand Command, offCommand Command) {
 	s.onCommand[slot] = oncommand
 	s.offCommand[slot] = offCommand
 }
-func (s *SimpleRemoteControl) OnButtonWasPressed(slot int) {
+func (s *RemoteControl) OnButtonWasPressed(slot int) {
 	s.onCommand[slot].execute()
+	s.undoCommand = s.onCommand[slot]
 }
 
-func (s *SimpleRemoteControl) OffButtonWasPressed(slot int) {
+func (s *RemoteControl) OffButtonWasPressed(slot int) {
 	s.offCommand[slot].execute()
+	s.undoCommand = s.offCommand[slot] //记录现在是什么,但似乎
 }
-
-func (s *SimpleRemoteControl) ToString() {
+func (s *RemoteControl) UndoButtonWasPressed() {
+	if s.undoCommand != nil {
+		s.undoCommand.undo()
+	}
+}
+func (s *RemoteControl) ToString() {
 	r := fmt.Sprintf("\n-----Remote Control-----\n")
 	for i := range s.onCommand {
 		if s.onCommand[i] == nil {
@@ -40,7 +41,7 @@ func (s *SimpleRemoteControl) ToString() {
 		r += fmt.Sprintf("[slot %d]%s   %s", i, onClass, offClass)
 	}
 }
-func (s *SimpleRemoteControl) getClassName(myVar interface{}) string { //这段代码的核心是通过反射动态获取变量的类型名称，尤其适用于需要处理多种类型或指针类型的场景。
+func (s *RemoteControl) getClassName(myVar interface{}) string { //这段代码的核心是通过反射动态获取变量的类型名称，尤其适用于需要处理多种类型或指针类型的场景。
 	if t := reflect.TypeOf(myVar); t.Kind() == reflect.Ptr {
 		return t.Elem().Name() //是指针那么返回的是他指向了谁的类型名称(自己定义的名字)
 	} else {
