@@ -114,6 +114,7 @@ func (g *GarageDoorDown) undo() {
 }
 
 type CeilingFan struct {
+	Speed int
 }
 type CeilingFanOn struct {
 	ceilinFan *CeilingFan
@@ -121,18 +122,41 @@ type CeilingFanOn struct {
 type CeilingFanOff struct {
 	ceilingFan *CeilingFan
 }
+type CeilingFanSpeed struct {
+	ceilingFan *CeilingFan
+}
 
 func (c *CeilingFan) on() {
-	fmt.Println("ceilingfan on")
+	fmt.Println("ceilingFan on")
 }
 func (c *CeilingFanOn) execute() {
 	c.ceilinFan.on()
 }
 func (c *CeilingFan) off() {
-	fmt.Println("ceilingfan off ")
+	fmt.Println("ceilingFan off ")
 }
 func (c *CeilingFanOff) execute() {
 	c.ceilingFan.off()
+}
+func (c *CeilingFan) speedControl(speed int) {
+	c.Speed = speed
+}
+func (c *CeilingFanSpeed) execute() {
+
+	c.ceilingFan.speedControl(0) //这里好像随便用一个数字占位置就行了,因为上面speedControl(speed int)才决定了speed
+}
+func (c *CeilingFan) getSpeed() {
+
+	if c.Speed == 1 {
+		fmt.Println("low")
+	} else if c.Speed == 2 {
+		fmt.Println("medium")
+	} else if c.Speed == 3 {
+		fmt.Println("high")
+	} else {
+		fmt.Println("input wrong number!!")
+	}
+
 }
 func (c *CeilingFanOn) undo() {
 	c.ceilinFan.off()
