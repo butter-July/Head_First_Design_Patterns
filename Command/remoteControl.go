@@ -11,7 +11,7 @@ func main() {
 
 	remote.SetCommand(1, &LigthOn, &Lightoff)
 	remote.OnButtonWasPressed(1)
-	remote.OffButtonWasPressed(1)
+	remote.OffButtonWasPressed(1) //只有Off和on添加别的是不是还要添加不同的buttonpressed方法
 	remote.UndoButtonWasPressed()
 	fmt.Println(remote.getClassName(light))
 
@@ -22,8 +22,9 @@ func main() {
 	remote.OnButtonWasPressed(2)
 	remote.OffButtonWasPressed(2)
 	remote.UndoButtonWasPressed()
+	ceilingFan.speedControl(3)
+	ceilingFan.getSpeed()
 	fmt.Println(remote.getClassName(ceilingFan))
-
 	stere := Stere{}
 	stereon := StereOnOnCommand{&stere}
 	stereoff := StereOffCommand{&stere}
