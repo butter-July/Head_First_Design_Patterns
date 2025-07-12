@@ -135,16 +135,20 @@ func (c *CeilingFanOn) execute() {
 func (c *CeilingFan) off() {
 	fmt.Println("ceilingFan off ")
 }
+
 func (c *CeilingFanOff) execute() {
 	c.ceilingFan.off()
 }
+
 func (c *CeilingFan) speedControl(speed int) {
 	c.Speed = speed
 }
+
 func (c *CeilingFanSpeed) execute() {
 
 	c.ceilingFan.speedControl(0) //这里好像随便用一个数字占位置就行了,因为上面speedControl(speed int)才决定了speed
 }
+
 func (c *CeilingFan) getSpeed() {
 
 	if c.Speed == 1 {
@@ -156,11 +160,19 @@ func (c *CeilingFan) getSpeed() {
 	} else {
 		fmt.Println("input wrong number!!")
 	}
-
 }
 func (c *CeilingFanOn) undo() {
 	c.ceilinFan.off()
 }
 func (c *CeilingFanOff) undo() {
 	c.ceilingFan.on()
+}
+
+type Sum struct {
+}
+type SumUndo struct {
+	light      *Light
+	ceilingFan *CeilingFan
+	garageDoor *GarageDoor
+	stere      *Stere
 }
