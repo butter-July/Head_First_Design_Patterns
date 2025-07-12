@@ -1,9 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type Command interface {
 	execute()
+	undo()
 }
 type Light struct {
 }
@@ -13,7 +16,6 @@ type LightOnCommand struct {
 type LightOffCommand struct {
 	light *Light
 } //他的结构体要有light才能在execute里面调用on的命令,相当与"服务员"的作用,调用者
-
 func (l *LightOffCommand) execute() {
 	l.light.off()
 }
@@ -21,7 +23,12 @@ func (l *LightOffCommand) execute() {
 func (l *LightOnCommand) execute() {
 	l.light.on()
 }
-
+func (l *LightOffCommand) undo() {
+	l.light.on()
+}
+func (l *LightOnCommand) undo() {
+	l.light.off()
+}
 func (l *Light) on() {
 	fmt.Println("Light is ON")
 }
@@ -71,6 +78,12 @@ func (s *StereSetVolume) execute() {
 	i, _ := fmt.Scanln()
 	s.stere.setVolume(i)
 }
+func (s *StereOffCommand) undo() {
+	s.Stere.on()
+}
+func (s *StereOnOnCommand) undo() {
+	s.stere.OFF()
+}
 
 type GarageDoor struct {
 }
@@ -93,6 +106,12 @@ func (g *GarageDoor) Down() {
 func (g *GarageDoorDown) execute() {
 	g.garageDoor.Down()
 }
+func (g *GarageDoorUp) undo() {
+	g.garageDoor.Down()
+}
+func (g *GarageDoorDown) undo() {
+	g.garageDoor.UP()
+}
 
 type CeilingFan struct {
 }
@@ -114,4 +133,10 @@ func (c *CeilingFan) off() {
 }
 func (c *CeilingFanOff) execute() {
 	c.ceilingFan.off()
+}
+func (c *CeilingFanOn) undo() {
+	c.ceilinFan.off()
+}
+func (c *CeilingFanOff) undo() {
+	c.ceilingFan.on()
 }
