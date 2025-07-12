@@ -33,5 +33,5 @@ func main() {
 	remote.OffButtonWasPressed(3)
 	fmt.Println(remote.getClassName(3))
 	remote.UndoButtonWasPressed()
-
+	remote.UndoAll()
 }
