@@ -12,13 +12,13 @@ func (hasQuarter *HasQuarterState) insertQuarter() {
 
 func (hasQuarter *HasQuarterState) ejectQuarter() {
 	fmt.Println("Quarter returned")
-	hasQuarter.machine.setState(hasQuarter.machine.NoQuarterState)
+	hasQuarter.machine.setState(&hasQuarter.machine.NoQuarterState)
 }
 
 func (hasQuarter *HasQuarterState) turnCrank() {
 	fmt.Println("you can turn,candy is coming....")
-	hasQuarter.machine.CurrentState.dispense()
-	hasQuarter.machine.setState(hasQuarter.machine.NoQuarterState)
+	hasQuarter.machine.SoldState.dispense() ////////////important!!!!!!!!这里要换到SoldState
+	hasQuarter.machine.setState(&hasQuarter.machine.NoQuarterState)
 
 	//投币的情况下转动手柄,然后把状态设置为没有币了,然后进入出糖果的行为
 
