@@ -11,8 +11,11 @@ func (diner *DinerMenuIterator) HasNext() bool {
 	}
 	return true
 }
-func (diner *DinerMenuIterator) next() MenuItem {
-	menuItem := diner.items[diner.position]
-	diner.position++
-	return *menuItem
+func (diner *DinerMenuIterator) next() *MenuItem {
+	if diner.HasNext() {
+		item := diner.items[diner.position]
+		diner.position++
+		return item
+	}
+	return nil
 }
