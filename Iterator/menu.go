@@ -6,3 +6,6 @@ type MenuItem struct {
 	vegetarian  bool
 	price       float64
 }
+type Menu interface {
+	createIter() Iterator
+}
