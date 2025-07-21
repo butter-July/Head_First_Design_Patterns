@@ -9,7 +9,10 @@ type DinerMenu struct {
 	MenuItems     [6]*MenuItem
 }
 
-func NewDinerMenu() *DinerMenu {
+func (d *DinerMenu) createIter() Iterator {
+	return &DinerMenuIterator{items: d.MenuItems[:d.NumberOfItems]}
+}
+func NewDinnerMenu() *DinerMenu {
 	dinerMenu := DinerMenu{}
 	dinerMenu.AddItem("Vegetarian BLT", "(Fakin') Bacon with lettuce & tomato on whole wheat", true, 2.99)
 	dinerMenu.AddItem("BLT", "Bacon with lettuce & tomato on whole wheat", false, 2.99)
